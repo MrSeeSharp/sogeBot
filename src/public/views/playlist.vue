@@ -1,6 +1,6 @@
 <template>
   <v-container fluid style="min-height: calc(100vh);" ref="playlistRef">
-    <h3>{{ translate('menu.playlist') }}</h3>
+    <h2>{{ translate('menu.playlist') }}</h2>
 
     <v-pagination v-model="currentPage" :length="Math.ceil(count / perPage)"/>
 
