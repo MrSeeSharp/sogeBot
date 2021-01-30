@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer permanent expand-on-hover app>
+    <vue-headful :title='name.toUpperCase() + " @ " + channelName'/>
     <user/>
     <v-divider></v-divider>
     <navmenu/>
@@ -9,22 +10,30 @@
 </template>
 
 <script lang="ts">
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faBars, faSignInAlt, faSignOutAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, onMounted, ref } from '@vue/composition-api'
 import Vue from 'vue';
 import vueHeadful from 'vue-headful';
 
-Vue.component('vue-headful', vueHeadful);
-library.add(faBars, faSignInAlt, faSignOutAlt);
+import { getSocket } from 'src/panel/helpers/socket';
+
+const socket = getSocket('/', true);
 
 export default defineComponent({
   components: {
     user:    () => import('src/panel/components/navbar/user.vue'),
     navmenu: () => import('./menu.vue'),
-    theme:   () => import('src/panel/components/navbar/theme.vue'),
+    theme: () => import('src/panel/components/navbar/theme.vue'),
   },
+  setup() {
+    const name = ref('');
+    const channelName = ref('');
+
+    onMounted(() => {
+      socket.emit('name', (recvName: string) => name.value = recvName );
+      socket.emit('channelName', (recvName: string) => channelName.value = recvName );
+    })
+
+    return { name, channelName }
+  }
 });
 </script>
