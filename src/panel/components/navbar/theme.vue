@@ -1,8 +1,14 @@
 <template>
-  <b-btn @click="toggleTheme" class="border-0 ml-1 p-1 pl-2 pr-2" variant="null">
-    <fa icon="sun" fixed-width style="color: rgb(253, 177, 0)" v-if="theme === 'light'"/>
-    <fa icon="moon" fixed-width style="color: #d0d5d2" v-else/>
-  </b-btn>
+  <v-list nav dense>
+    <v-list-item @click="toggleTheme">
+      <v-list-item-icon>
+        <fa icon="sun" fixed-width style="color: rgb(253, 177, 0)" v-if="theme === 'light'"/>
+        <fa icon="moon" fixed-width style="color: #d0d5d2" v-else/>
+      </v-list-item-icon>
+      </v-btn>
+      <v-list-item-title>{{theme}}</v-list-item-title>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script lang="ts">
@@ -36,6 +42,8 @@ export default defineComponent({
     };
 
     const loadTheme = async (themeArg: string) => {
+      console.error('loadTheme is currently disabled')
+      /*
       if (!['light', 'dark'].includes(themeArg)) {
         console.error(`Unknown theme ${themeArg}, setting light theme`);
         themeArg = 'light';
@@ -55,7 +63,8 @@ export default defineComponent({
         });
       }
       localStorage.setItem('theme', themeArg);
-    };
+      */
+    }
 
     onMounted(async () => {
       const user = await isUserLoggedIn(false, false);

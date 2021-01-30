@@ -1,28 +1,33 @@
-<template lang="pug">
-  b-container(ref="playlistRef" style="min-height: calc(100vh - 49px);").fluid.pt-2
-    b-row
-      b-col
-        span.title.text-default.mb-2 {{ translate('menu.playlist') }}
+<template>
+  <v-container fluid style="min-height: calc(100vh);" ref="playlistRef">
+    <h3>{{ translate('menu.playlist') }}</h3>
 
-    panel
-      template(v-slot:left)
-        button-with-icon(icon="caret-left" href="#/").btn-secondary.btn-reverse {{translate('commons.back')}}
-      template(v-slot:right)
-        b-pagination(
-          v-model="currentPage"
-          :total-rows="count"
-          :per-page="perPage"
-          ).m-0
+    <v-pagination v-model="currentPage" :length="Math.ceil(count / perPage)"/>
 
-    loading(v-if="state.loading !== $state.success")
-    b-table(v-else striped small :items="playlist" :fields="fields" @row-clicked="linkTo($event)").table-p-0
-      template(v-slot:cell(thumbnail)="data")
-        img(v-bind:src="generateThumbnail(data.item.videoId)").float-left.pr-3
+    <v-simple-table>
+      <template v-slot:default>
+        <tbody>
+          <tr
+            @click="linkTo(item)"
+            v-for="item in playlist"
+            :key="item.videoId"
+          >
+            <td>
+              <v-img class="fitThumbnail" :src="generateThumbnail(item.videoId)"></v-img>
+            </td>
+            <td>{{ item.title }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+
+    <v-pagination v-model="currentPage" :length="Math.ceil(count / perPage)"/>
+  </v-container>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent, onMounted, ref, watch, 
+  defineComponent, onMounted, ref, watch,
 } from '@vue/composition-api';
 import VueScrollTo from 'vue-scrollto';
 
@@ -50,7 +55,7 @@ export default defineComponent({
 
     const fields = [
       {
-        key: 'thumbnail', label: '', tdClass: 'fitThumbnail', 
+        key: 'thumbnail', label: '', tdClass: 'fitThumbnail',
       },
       { key: 'title', label: '' },
       { key: 'buttons', label: '' },
@@ -79,10 +84,9 @@ export default defineComponent({
     const moveTo = () => {
       VueScrollTo.scrollTo(playlistRef.value as Element, 500, {
         container: 'body',
-        force:     true,
-        offset:    -49,
-        onDone:    function() {
-          const scrollPos = window.scrollY || document.getElementsByTagName('html')[0].scrollTop;
+        force: true,
+        onDone: function() {
+          const scrollPos = window.scrollY || document.getElementsByTagName("html")[0].scrollTop;
           if (scrollPos === 0) {
             setTimeout(() => moveTo(), 100);
           }
