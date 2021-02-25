@@ -14,14 +14,14 @@ import { store } from 'src/panel/helpers/store';
 
 import vuetify from './vuetify'; // path to vuetify export
 
-Vue.component('fa', FontAwesomeIcon);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('Fa', FontAwesomeIcon);
+Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 
 Vue.use(VueCompositionAPI);
 
 /* import widely used components */
-Vue.component('panel', () => import('src/panel/components/panel.vue'));
-Vue.component('button-with-icon', () => import('src/panel/components/button.vue'));
+Vue.component('Panel', () => import('src/panel/components/panel.vue'));
+Vue.component('ButtonWithIcon', () => import('src/panel/components/button.vue'));
 
 library.add(faCaretLeft);
 
@@ -38,16 +38,16 @@ const main = async () => {
     base:   __dirname,
     routes: [
       {
-        path: '/', name: 'Dashboard', component: () => import('./views/dashboard.vue'), 
+        path: '/', name: 'Dashboard', component: () => import('./views/dashboard.vue'),
       },
       {
-        path: '/playlist', name: 'Playlist', component: () => import('./views/playlist.vue'), 
+        path: '/playlist', name: 'Playlist', component: () => import('./views/playlist.vue'),
       },
       {
-        path: '/songrequests', name: 'SongRequests', component: () => import('./views/songrequests.vue'), 
+        path: '/songrequests', name: 'SongRequests', component: () => import('./views/songrequests.vue'),
       },
       {
-        path: '/quotes', name: 'Quotes', component: () => import('./views/quotes.vue'), 
+        path: '/quotes', name: 'Quotes', component: () => import('./views/quotes.vue'),
       },
     ],
   });

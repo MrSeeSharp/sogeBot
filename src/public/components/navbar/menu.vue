@@ -1,17 +1,27 @@
 <template>
-  <v-list nav dense>
-    <v-list-item :key="item.name" v-for="item of menu" :href="'#/' + item.id.replace(/\./g, '/')">
+  <v-list
+    nav
+    dense
+  >
+    <v-list-item
+      v-for="item of menu"
+      :key="item.name"
+      :href="'#/' + item.id.replace(/\./g, '/')"
+    >
       <v-list-item-icon>
-        <v-icon>{{icons.get(item.name)}}</v-icon>
+        <v-icon>{{ icons.get(item.name) }}</v-icon>
       </v-list-item-icon>
-      <v-list-item-title>{{translate('menu.' + item.name)}}</v-list-item-title>
+      <v-list-item-title>{{ translate('menu.' + item.name) }}</v-list-item-title>
     </v-list-item>
   </v-list>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from '@vue/composition-api'
+import {
+  defineComponent, onMounted, ref,
+} from '@vue/composition-api';
 
+import type { menuPublic } from 'src/bot/helpers/panel';
 import { getSocket } from 'src/panel/helpers/socket';
 import translate from 'src/panel/helpers/translate';
 
@@ -48,9 +58,11 @@ export default defineComponent({
         }
       });
     });
-  return { menu, translate, icons }
-  }
-})
+    return {
+      menu, translate, icons,
+    };
+  },
+});
 </script>
 <style>
 .ps__rail-x {

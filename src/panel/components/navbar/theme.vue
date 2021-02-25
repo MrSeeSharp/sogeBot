@@ -1,25 +1,31 @@
 <template>
-  <v-list nav dense>
-    <v-list-item @click="toggleTheme">
-      <v-list-item-icon>
-        <v-icon style="color: rgb(253, 177, 0)" v-if="theme === 'light'">mdi-weather-sunny</v-icon>
-        <v-icon style="color: #d0d5d2" v-else>mdi-moon-waxing-crescent</v-icon>
-      </v-list-item-icon>
-      <v-list-item-title>{{theme}}</v-list-item-title>
-    </v-list-item>
-  </v-list>
+  <v-btn
+    text
+    @click="toggleTheme"
+  >
+    <v-icon
+      v-if="theme === 'light'"
+      style="color: rgb(253, 177, 0)"
+    >
+      mdi-weather-sunny
+    </v-icon>
+    <v-icon
+      v-else
+      style="color: #d0d5d2"
+    >
+      mdi-moon-waxing-crescent
+    </v-icon>
+  </v-btn>
 </template>
 
 <script lang="ts">
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import {
   defineComponent, onMounted, ref,
 } from '@vue/composition-api';
 import { get } from 'lodash-es';
 
-import { getSocket } from 'src/panel/helpers/socket';
 import { isUserLoggedIn } from 'src/panel/helpers/isUserLoggedIn';
+import { getSocket } from 'src/panel/helpers/socket';
 
 const socket = getSocket('/core/users', true);
 
@@ -30,7 +36,7 @@ export default defineComponent({
     const toggleTheme = () => {
       const _theme = localStorage.getItem('theme');
       if (_theme === null || _theme === 'light') {
-        localStorage.setItem('theme', 'dark')
+        localStorage.setItem('theme', 'dark');
       }
       if (_theme === 'dark') {
         localStorage.setItem('theme', 'light');
@@ -55,7 +61,7 @@ export default defineComponent({
         });
       }
       localStorage.setItem('theme', themeArg);
-    }
+    };
 
     onMounted(async () => {
       const user = await isUserLoggedIn(false, false);
